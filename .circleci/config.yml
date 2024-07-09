@@ -1,15 +1,13 @@
+---
 version: 2.1
-
 workflow:
-  test-deploy:
+  plugh:
     jobs:
-      -test
-
+      - xyzzy
 jobs:
-  test:
+  xyzzy:
     docker:
       - image: cimg/node:22.4.1
     steps:
       - checkout
       - run: node --version
-
