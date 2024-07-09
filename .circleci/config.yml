@@ -3,12 +3,17 @@ version: 2.1
 workflows:
   plugh:
     jobs:
-      - xyzzy
+      - test
 jobs:
-  xyzzy:
+  test:
     docker:
       - image: cimg/node:22.4.1
     steps:
       - checkout
-      - run: node --version
+      - run:
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: run tests
+          command: npm run test
 
