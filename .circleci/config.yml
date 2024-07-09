@@ -1,9 +1,5 @@
 ---
 version: 2.1
-workflow:
-  plugh:
-    jobs:
-      - xyzzy
 jobs:
   xyzzy:
     docker:
@@ -11,3 +7,19 @@ jobs:
     steps:
       - checkout
       - run: node --version
+  print-a-message:
+    docker:
+      - image: cimg/base:2022.03
+    parameters:
+      message:
+        type: string
+    steps:
+      - run: echo << parameters.message >>
+workflow:
+  plugh:
+    jobs:
+      - xyzzy
+  my-workflow:
+    jobs:
+      - print-a-message:
+          message: Hello!
