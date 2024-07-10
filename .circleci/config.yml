@@ -10,7 +10,7 @@ jobs:
       # Found on CircleCI website
       - image: cimg/node:22.4.1
     environment:
-      BAZ: defined
+      BAZ: "defined at job level"
     steps:
       - checkout
       - run:
@@ -18,10 +18,10 @@ jobs:
           command: |
             echo 'export FOO="Defined at runtime"' >> $BASH_ENV
             source $BASH_ENV
-            set | grep FOO
+            echo "Value is ${FOO}"
       - run:
           name: Define env var at job invoke time
-          command: set | grep BAR
+          command: echo "Value is ${BAR}"
           environment:
             BAR: "Defined at invoke time"
       - run:
