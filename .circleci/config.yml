@@ -9,8 +9,25 @@ jobs:
     docker:
       # Found on CircleCI website
       - image: cimg/node:22.4.1
+    environment:
+      FOO: bar
     steps:
       - checkout
+      - run:
+          name: Update PATH and define env var at runtime
+          command: |
+            echo 'export PATH=/path/to/foo/bin:$PATH' >> $BASH_ENV
+            echo 'export VERY_IMPORTANT=$( cat important_value )' >> $BASH_ENV
+            source $BASH_ENV
+            echo "My very important value is $VERY_IMPORTANT"
+      - run:
+          name: Use environment key to provide env var value
+          command: echo "My very important value is $VERY_IMPORTANT"
+          environment:
+            VERY_IMPORTANT: "this is very important"
+      - run:
+          name: Display job-wide env var
+          command: echo "My value is $FOO"
       - run:
           name: Install dependencies
           command: npm install
