@@ -10,23 +10,23 @@ jobs:
       # Found on CircleCI website
       - image: cimg/node:22.4.1
     environment:
-      FOO: bar
+      BAZ: defined
     steps:
       - checkout
       - run:
-          name: Update PATH and define env var at runtime
+          name: Define env var at runtime
           command: |
-            echo 'export VERY_IMPORTANT=$( cat important_value )' >> $BASH_ENV
+            echo 'export FOO="Defined at runtime"' >> $BASH_ENV
             source $BASH_ENV
-            set | grep IMPORTANT
+            set | grep FOO
       - run:
-          name: Use environment key to provide env var value
-          command: set | grep IMPORTANT
+          name: Define env var at job invoke time
+          command: set | grep BAR
           environment:
-            VERY_IMPORTANT: "this is very important"
+            BAR: "Defined at invoke time"
       - run:
           name: Display job-wide env var
-          command: echo "My value is $FOO"
+          command: echo "My value is $BAZ"
       - run:
           name: Install dependencies
           command: npm install
